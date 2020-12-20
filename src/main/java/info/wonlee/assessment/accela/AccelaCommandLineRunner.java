@@ -9,13 +9,13 @@ package info.wonlee.assessment.accela;
  *
  ***************************************************************/
 
-import info.wonlee.assessment.accela.model.Person;
 import info.wonlee.assessment.accela.repo.PersonRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Scanner;
 
 /**
  * User: wonlee
@@ -24,6 +24,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+@Profile("!test")
 public class AccelaCommandLineRunner implements CommandLineRunner {
     private final PersonRepo personRepo;
 
@@ -33,18 +34,44 @@ public class AccelaCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Person me = new Person();
-        me.setFirstName("Won");
-        me.setLastName("Lee");
-        personRepo.save(me);
-        final List<Person> all = personRepo.findAll();
-        log.info("YOYOYO {}", all);
-
-/*
         Scanner scanner = new Scanner(System.in);
-        String line = scanner.nextLine();
-        System.out.println(line);
-*/
+        try {
+            boolean keepGoing = true;
+            while (keepGoing) {
+                System.out.print("Enter Command Number: ");
+                String line = scanner.nextLine();
+                keepGoing = identifyCommand(line);
+            }
+        } catch (Exception e) {
+            log.error("unhandled exception, closing application", e);
+        } finally {
+            scanner.close();
+        }
 
+        log.warn("application to be shutdown");
+    }
+
+    private boolean identifyCommand(String line) {
+        switch (line) {
+            case "0":
+                return false;
+            case "1": // add person
+                break;
+            case "2": // edit person
+                break;
+            case "3": // delete person
+                break;
+            case "4": // count persons
+                break;
+            case "5": // list persons
+                break;
+            case "6": // data loading
+                break;
+            default:
+                System.out.println("invalid command number");
+                log.warn("invalid command number");
+        }
+        System.out.println("Command Process is completed");
+        return true;
     }
 }
