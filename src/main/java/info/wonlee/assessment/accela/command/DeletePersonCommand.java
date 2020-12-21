@@ -25,7 +25,7 @@ public class DeletePersonCommand implements ConsoleCommand {
 
     @Override
     public void execute() {
-        System.out.print("Enter Person ID to Delete ");
+        System.out.print("Enter Person ID to Delete: ");
         String idString = ConsoleInput.waitInput();
 
         long id = 0L;

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+// CommandLineRunner will be auto run on startup, test don't have any standard input hence unable to run if using it
+// Skipping CommandLineRunner during the test
 @Profile("!test")
 public class AccelaCommandLineRunner implements CommandLineRunner {
     private final ApplicationContext applicationContext;
@@ -32,7 +34,8 @@ public class AccelaCommandLineRunner implements CommandLineRunner {
             System.out.println("3, Delete Person");
             System.out.println("4, Count Number of Persons");
             System.out.println("5, List Persons");
-            System.out.println("6, Load Data");
+            System.out.println("6, Export Data in XML");
+            System.out.println("7, Load Data");
             System.out.println("-- Exist Command --");
             System.out.println("0, Exit");
             System.out.print("Enter Command Number: ");
@@ -68,7 +71,11 @@ public class AccelaCommandLineRunner implements CommandLineRunner {
             case "5": // list persons
                 command = applicationContext.getBean(ListPersonsCommand.class);
                 break;
-            case "6": // data loading
+            case "6": // data export
+                command = applicationContext.getBean(ExportPersonsCommand.class);
+                break;
+            case "7": // data loading
+                command = applicationContext.getBean(ImportPersonCommand.class);
                 break;
             default:
                 System.out.println("invalid command number");

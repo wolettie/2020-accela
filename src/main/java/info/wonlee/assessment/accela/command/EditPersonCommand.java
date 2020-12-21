@@ -45,16 +45,16 @@ public class EditPersonCommand implements ConsoleCommand {
         final Person person = personOpt.get();
         System.out.printf("First Name [%s]: ", person.getFirstName());
         String firstName = ConsoleInput.waitInput();
-        System.out.printf("Last Name [%s]: ", person.getLastName());
-        String lastName = ConsoleInput.waitInput();
-
         if (firstName.isBlank()) {
             firstName = person.getFirstName();
             System.out.println("first name is blank, won't be changed");
         }
+
+        System.out.printf("Last Name [%s]: ", person.getLastName());
+        String lastName = ConsoleInput.waitInput();
         if (lastName.isBlank()) {
             lastName = person.getLastName();
-            System.out.println("first name is blank, won't be changed");
+            System.out.println("last name is blank, won't be changed");
         }
 
         person.setFirstName(firstName);
