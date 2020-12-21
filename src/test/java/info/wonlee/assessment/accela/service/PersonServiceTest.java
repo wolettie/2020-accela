@@ -1,14 +1,6 @@
 package info.wonlee.assessment.accela.service;
-/***************************************************************
- * Copyright (c) 2020 Errigal Inc.
- *
- * This software is the confidential and proprietary information
- * of Errigal, Inc.  You shall not disclose such confidential
- * information and shall use it only in accordance with the
- * license agreement you entered into with Errigal.
- *
- ***************************************************************/
 
+import info.wonlee.assessment.accela.dto.CommandResult;
 import info.wonlee.assessment.accela.model.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +26,13 @@ public class PersonServiceTest {
         person.setFirstName(firstName);
         person.setLastName(lastName);
 
-        final Person save = personService.save(person);
+        final CommandResult<Person> result = personService.save(person);
 
-        assert save.getId() > 0L;
-        assert save.getFirstName().equals(firstName);
-        assert save.getLastName().equals(lastName);
+        assert result.getErrorMessage() == null;
+
+        Person saved = result.getResult();
+        assert saved.getId() > 0L;
+        assert saved.getFirstName().equals(firstName);
+        assert saved.getLastName().equals(lastName);
     }
 }

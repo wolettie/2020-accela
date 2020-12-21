@@ -1,19 +1,13 @@
 package info.wonlee.assessment.accela.service;
-/***************************************************************
- * Copyright (c) 2020 Errigal Inc.
- *
- * This software is the confidential and proprietary information
- * of Errigal, Inc.  You shall not disclose such confidential
- * information and shall use it only in accordance with the
- * license agreement you entered into with Errigal.
- *
- ***************************************************************/
 
+import info.wonlee.assessment.accela.dto.CommandResult;
 import info.wonlee.assessment.accela.model.Person;
 import info.wonlee.assessment.accela.repo.PersonRepo;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * User: wonlee
@@ -29,8 +23,13 @@ public class PersonService {
     }
 
     // for add & edit
-    public Person save(Person person) {
-        return personRepo.save(person);
+    public CommandResult<Person> save(Person person) {
+        try {
+            final Person save = personRepo.save(person);
+            return CommandResult.<Person>builder().result(save).build();
+        } catch (DataIntegrityViolationException e) {
+            return CommandResult.<Person>builder().errorMessage("check data entered meets database constraints such as unique key").build();
+        }
     }
 
     public List<Person> saveAll(List<Person> personList) {
@@ -38,8 +37,8 @@ public class PersonService {
     }
 
     public void delete(Long id) {
-        Person person = personRepo.getOne(id);
-        personRepo.delete(person);
+        Optional<Person> person = personRepo.findById(id);
+        person.ifPresent(personRepo::delete);
     }
 
     public long count() {
@@ -48,5 +47,9 @@ public class PersonService {
 
     public List<Person> list() {
         return personRepo.findAll();
+    }
+
+    public Optional<Person> getPerson(Long id) {
+        return personRepo.findById(id);
     }
 }

@@ -11,10 +11,7 @@ package info.wonlee.assessment.accela.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 /**
  * User: wonlee
@@ -23,12 +20,18 @@ import javax.persistence.SequenceGenerator;
 
 @Data
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"firstName", "lastName"})
+}
+)
 public class Person {
     @Id
     @GeneratedValue(generator = "PERSON_SEQ")
-    @SequenceGenerator(name="PERSON_SEQ", sequenceName="PERSON_SEQ", allocationSize = 20)
+    @SequenceGenerator(name = "PERSON_SEQ", sequenceName = "PERSON_SEQ", allocationSize = 20)
     private Long id;
 
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
 }
