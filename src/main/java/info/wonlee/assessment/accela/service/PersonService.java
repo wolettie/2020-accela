@@ -59,11 +59,14 @@ public class PersonService {
         return personRepo.findById(id);
     }
 
+    // in real world where XMl can be massive size,
+    // it's better to have method that output stream as a parameter and write into it so we don't waste big chunk of memory to XML String
     public String exportXml() {
         List<Person> personList = personRepo.findAll();
         return xStream.toXML(personList);
     }
 
+    // the same story here, deal with input stream directly would be memory efficient
     public CommandResult<Person> fromXml(String xml) {
         try {
             Person person = (Person) xStream.fromXML(xml);
