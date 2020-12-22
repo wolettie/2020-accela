@@ -20,9 +20,18 @@ This is to perform business logic.
 
 ## Database
 This app uses H2 file based Database.
-It will be initiated automatically if DB file does not exist.   
+
+DB file will be created automatically if it doesn't exist.
+
+Default DB file path is specified at src/main/resources/application.properties
+
+To customise location, create new application.properties 
+and specify the path of the custom file by `--spring.config.location=`
 
 # Build & Run
 `./gradew build` for Mac & linux or `gradlew.bat build` for windows
 
 `java -jar build/libs/wonlee_accela-0.0.1-SNAPSHOT.jar`
+
+If you want to use custom application.properties, 
+append java command with `--spring.config.location=` and path to the file.
