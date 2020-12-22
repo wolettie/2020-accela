@@ -33,6 +33,7 @@ public class DeletePersonCommand implements ConsoleCommand {
             id = Long.parseLong(idString);
         } catch (NumberFormatException e) {
             System.out.printf("%s is not number\n", idString);
+            return;
         }
 
         Optional<Person> personOpt = personService.getPerson(id);
